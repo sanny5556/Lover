@@ -34,10 +34,10 @@
 
         .container {
             position: relative;
-            width: 450px;
-            height: 300px;
+            width: 90%;
+            max-width: 450px;
+            height: 280px;
             perspective: 1500px;
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:24px'><text y='20'>💖</text></svg>"), pointer;
         }
 
         .envelope {
@@ -56,21 +56,32 @@
             content: "";
             position: absolute;
             top: 0;
-            z-index: 12;
-            border-top: 180px solid #ece8e1;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 150px solid #ece8e1;
             border-left: 225px solid transparent;
             border-right: 225px solid transparent;
+            z-index: 12;
             transform-origin: top;
             transition: transform 0.8s ease-in-out;
         }
 
+        /* ปรับ Triangle ของซองจดหมายให้ยืดหยุ่น */
+        @media (max-width: 480px) {
+            .envelope::before {
+                border-left-width: 45vw;
+                border-right-width: 45vw;
+            }
+        }
+
         .wax-seal {
             position: absolute;
-            top: 90px;
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
-            width: 170px;
-            height: 170px;
+            width: 140px;
+            height: 140px;
             z-index: 15;
             background-image: url('wax.png'); 
             background-size: contain;
@@ -82,11 +93,12 @@
 
         .content {
             position: absolute;
-            width: 620px; 
+            width: 95vw;
+            max-width: 600px;
             height: auto;
-            min-height: 400px;
+            min-height: 350px;
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
             transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -98,56 +110,55 @@
             box-sizing: border-box;
         }
 
-        h3 { font-family: 'Caveat', cursive; color: #a11a1a; font-size: 2.2rem; margin-top: 0; text-align: center; }
-        p { font-size: 1rem; line-height: 1.7; color: #333; word-wrap: break-word; }
+        h3 { font-family: 'Caveat', cursive; color: #a11a1a; font-size: 1.8rem; margin-top: 0; text-align: center; }
+        p { font-size: 0.95rem; line-height: 1.6; color: #333; word-wrap: break-word; }
 
         .container.open .envelope { z-index: 1; }
         .container.open .envelope::before { transform: rotateX(180deg); z-index: 1; }
         .container.open .wax-seal { opacity: 0; transform: translateX(-50%) scale(1.5) rotate(20deg); pointer-events: none; }
         .container.open .content { opacity: 1; z-index: 50; transform: translate(-50%, -50%) scale(1); }
 
-        .hint { position: absolute; bottom: -120px; width: 100%; text-align: center; color: #666; letter-spacing: 4px; font-size: 0.9rem; }
+        .hint { position: absolute; bottom: -80px; width: 100%; text-align: center; color: #666; letter-spacing: 2px; font-size: 0.8rem; }
 
-        /* --- Section 2: Timeline & Black Board --- */
+        /* --- Section 2: Timeline & Black Board (Responsive) --- */
         .timeline-container {
-            padding: 150px 0;
+            padding: 100px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         .gift-wrapper {
             position: relative;
-            margin-bottom: 600px;
+            margin-bottom: 450px;
             display: flex;
             flex-direction: column;
             align-items: center;
             opacity: 0;
             transition: 1.2s;
+            width: 100%;
         }
 
         .gift-wrapper.show { opacity: 1; }
 
         .gift-box {
-            width: 110px; height: 110px; background: var(--heart-red);
+            width: 90px; height: 90px; background: var(--heart-red);
             border-radius: 10px; cursor: pointer; position: relative;
             z-index: 20; display: flex; justify-content: center; align-items: center;
-            font-size: 2.5rem; transition: 0.5s;
+            font-size: 2rem; transition: 0.5s;
             box-shadow: 0 10px 25px rgba(255, 71, 87, 0.5);
         }
 
-        .gift-box::after, .gift-box::before { content: ""; position: absolute; background: rgba(255,255,255,0.4); }
-        .gift-box::after { width: 18px; height: 100%; }
-        .gift-box::before { width: 100%; height: 18px; }
-
+        /* --- กระดานดำฉบับ Responsive --- */
         .black-board {
             position: absolute;
-            width: 750px;
-            height: 480px;
+            width: 90vw;
+            max-width: 750px;
+            height: 450px;
             background: var(--board-black);
             border: 3px solid var(--border-white);
             border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 25px 50px rgba(0,0,0,0.8);
             top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
             transform-origin: center center;
@@ -156,69 +167,71 @@
             z-index: 1;
         }
 
+        @media (max-width: 600px) {
+            .black-board { height: 500px; } /* เพิ่มความสูงในมือถือเพื่อให้แนวตั้งจุรูปได้ */
+        }
+
         .opened .black-board {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .photo-cluster {
-            position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            pointer-events: none;
-        }
-
         .memory-card {
             position: absolute;
-            width: 220px;
+            width: 160px; /* ลดขนาดรูปในมือถือ */
             background: white;
-            padding: 10px 10px 25px 10px;
+            padding: 8px 8px 20px 8px;
             border-radius: 3px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             opacity: 0;
             transform: scale(0);
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .pin {
-            position: absolute;
-            top: -10px; left: 50%;
-            transform: translateX(-50%);
-            width: 18px; height: 18px;
-            background: var(--heart-red);
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5), inset -3px -3px 5px rgba(0,0,0,0.2);
-            z-index: 10;
+        @media (min-width: 768px) {
+            .memory-card { width: 220px; }
         }
 
-        .memory-card img { width: 100%; border-radius: 2px; display: block; }
-        .memory-card p { font-size: 0.85rem; color: #333; margin: 10px 0 0 0; text-align: center; line-height: 1.4; }
+        /* จัดตำแหน่งรูปให้ดูดีทั้งคอมและมือถือ */
+        .opened .card-left { 
+            opacity: 1; transform: scale(1) rotate(-7deg); 
+            left: 5%; top: 10%; transition-delay: 0.5s; 
+        }
+        .opened .card-right { 
+            opacity: 1; transform: scale(1) rotate(6deg); 
+            right: 5%; bottom: 10%; transition-delay: 0.7s; 
+        }
 
-        .opened .card-left { opacity: 1; transform: scale(1) rotate(-7deg); left: 10%; top: 15%; transition-delay: 0.5s; }
-        .opened .card-right { opacity: 1; transform: scale(1) rotate(6deg); right: 10%; top: 25%; transition-delay: 0.7s; }
-        .opened .gift-box { transform: scale(0); opacity: 0; pointer-events: none; }
+        @media (max-width: 480px) {
+            .opened .card-left { left: 10%; top: 5%; }
+            .opened .card-right { right: 10%; bottom: 5%; }
+        }
 
+        .memory-card img { width: 100%; border-radius: 2px; }
+        .memory-card p { font-size: 0.75rem; color: #333; margin: 8px 0 0 0; text-align: center; }
+
+        /* รอยเท้า */
         .footprint-path {
             position: absolute;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            top: 250px;
+            top: 220px;
             pointer-events: none;
         }
 
         .foot {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             opacity: 0;
             transition: opacity 1s ease;
-            margin: 40px 0;
+            margin: 30px 0;
             filter: invert(1) brightness(1.2); 
         }
 
-        .foot.left { transform: translateX(-35px) rotate(165deg); }
-        .foot.right { transform: translateX(35px) rotate(195deg); }
-        .foot.visible { opacity: 0.5; }
+        .foot.left { transform: translateX(-25px) rotate(165deg); }
+        .foot.right { transform: translateX(25px) rotate(195deg); }
+        .foot.visible { opacity: 0.4; }
 
         .heart-particle { 
             position: fixed; 
@@ -241,18 +254,15 @@
                 <p>
                     This website contains <br>
                     extreme amounts of love, <br>
-                    soft memories, <br>
-                    and one person who is completely obsessed with you. <br><br>
-                    I didn't just want to say "Happy Birthday". <br>
-                    I wanted to create something that lasts longer than a moment.<br><br>
-                    So I made this from zero just to remind you how important you are to me.<br><br>
+                    soft memories... <br><br>
+                    I made this from zero just to remind you how important you are to me.<br><br>
                     Please read slowly.<br>
                     Every part of this was written with you in mind.<br><br>
                     <b>Love... S ❤️</b>
                 </p>
             </div>
             <div class="envelope"></div>
-            <div class="hint">OPEN THE SECRET & SCROLL DOWN ↓</div>
+            <div class="hint">TAP TO OPEN & SCROLL DOWN ↓</div>
         </div>
     </div>
 
@@ -260,46 +270,37 @@
         
         <div class="gift-wrapper show" id="wrap1">
             <div class="gift-box" onclick="openGift(1)">🎁</div>
-            
             <div class="black-board">
                 <div class="photo-cluster">
                     <div class="memory-card card-left">
-                        <div class="pin"></div>
                         <img src="1-1.JPG">
-                        <p>Our first restaurant date.</p>
+                        <p>Our first date.</p>
                     </div>
                     <div class="memory-card card-right">
-                        <div class="pin"></div>
                         <img src="1-2.JPG">
-                        <p>We walked along the beach, <br> and I secretly took a photo of you.</p>
+                        <p>I love your smile.</p>
                     </div>
                 </div>
             </div>
-
             <div class="footprint-path">
-                <div class="foot left">👣</div><div class="foot right">👣</div>
                 <div class="foot left">👣</div><div class="foot right">👣</div>
             </div>
         </div>
 
         <div class="gift-wrapper" id="wrap2">
             <div class="gift-box" onclick="openGift(2)">🎁</div>
-            
             <div class="black-board">
                 <div class="photo-cluster">
                     <div class="memory-card card-left">
-                        <div class="pin"></div>
                         <img src="2-1.JPG">
-                        <p>Hehe, I stole your graduation gown <br> and tried it on.</p>
+                        <p>Special moment.</p>
                     </div>
                     <div class="memory-card card-right">
-                        <div class="pin"></div>
                         <img src="2-2.JPG">
-                        <p>A picture of us on your graduation day.</p>
+                        <p>Happy Birthday!</p>
                     </div>
                 </div>
             </div>
-
             <div class="footprint-path">
                 <div class="foot left">👣</div><div class="foot right">👣</div>
             </div>
@@ -312,7 +313,6 @@
         const music = document.getElementById('bgMusic');
         let shootingHearts = null;
 
-        // ฟังก์ชันเปิดจดหมายหลัก
         container.addEventListener('click', () => {
             const isOpen = container.classList.toggle('open');
             if (isOpen) {
@@ -322,92 +322,69 @@
             }
         });
 
-        // ระบบรอยเท้าโผล่ตามการเลื่อนหน้าจอ
         const footObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.2 });
 
         document.querySelectorAll('.foot').forEach(f => footObserver.observe(f));
 
-        // ฟังก์ชันเปิดกล่องของขวัญ
         function openGift(num) {
             const wrap = document.getElementById('wrap' + num);
             if (!wrap.classList.contains('opened')) {
                 wrap.classList.add('opened');
                 spawnHearts(window.innerWidth/2, window.scrollY + window.innerHeight/2);
-
                 const nextWrap = document.getElementById('wrap' + (num + 1));
-                if (nextWrap) {
-                    setTimeout(() => {
-                        nextWrap.classList.add('show');
-                    }, 1000);
-                }
+                if (nextWrap) setTimeout(() => nextWrap.classList.add('show'), 1000);
             }
         }
 
-        // เอฟเฟกต์หัวใจตอนกด (กระจายตัว)
         function spawnHearts(x, y) {
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.classList.add('heart-particle');
-                    const emojis = ['❤️', '💖', '💕', '🌹'];
-                    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-                    heart.style.left = x + 'px';
-                    heart.style.top = y + 'px';
-                    heart.style.position = 'absolute';
-                    document.body.appendChild(heart);
-                    
-                    const destX = (Math.random() - 0.5) * 800;
-                    const destY = (Math.random() - 0.5) * 800;
-                    heart.animate([
-                        { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
-                        { transform: `translate(${destX}px, ${destY}px) scale(2)`, opacity: 0 }
-                    ], { duration: 2500, easing: 'ease-out' }).onfinish = () => heart.remove();
-                }, i * 40);
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '❤️';
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.position = 'absolute';
+                document.body.appendChild(heart);
+                
+                const destX = (Math.random() - 0.5) * 400;
+                const destY = (Math.random() - 0.5) * 400;
+                heart.animate([
+                    { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
+                    { transform: `translate(${destX}px, ${destY}px) scale(1.5)`, opacity: 0 }
+                ], { duration: 2000 }).onfinish = () => heart.remove();
             }
         }
 
-        // --- จุดที่กอฟปรับแต่งให้รัวสะใจ ---
         function startHeartCannons() {
             if (shootingHearts) return;
-
             shootingHearts = setInterval(() => {
-                // ยิงรัวๆ จากซ้ายล่าง
                 createCannonHeart(0, window.innerHeight, 60); 
-                // ยิงรัวๆ จากขวาล่าง
                 createCannonHeart(window.innerWidth, window.innerHeight, -60);
-            }, 200); // ปรับความรัวเป็น 0.2 วินาที (รัวกว่าเดิม 3 เท่า!)
+            }, 300); // รัวกำลังดีสำหรับมือถือ
         }
 
         function createCannonHeart(x, y, angleBase) {
             const heart = document.createElement('div');
-            heart.classList.add('heart-particle');
-            const emojis = ['❤️', '💖', '💕', '💗', '💓', '🌸', '✨'];
-            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.className = 'heart-particle';
+            heart.innerHTML = ['❤️', '💖', '💕'][Math.floor(Math.random() * 3)];
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
-            // สุ่มขนาดให้มีเล็กบ้างใหญ่บ้างดูมีมิติ
-            heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
             document.body.appendChild(heart);
 
-            // คำนวณวิถีการยิงให้พุ่งเข้าหาตรงกลางจอและกระจายออก
-            const angle = (angleBase + (Math.random() - 0.5) * 45) * (Math.PI / 180);
-            const velocity = Math.random() * 500 + 700; 
-            const destX = Math.cos(angle) * velocity + (x === 0 ? 300 : -300);
+            const angle = (angleBase + (Math.random() - 0.5) * 40) * (Math.PI / 180);
+            const velocity = Math.random() * 400 + 500; 
+            const destX = Math.cos(angle) * velocity + (x === 0 ? 150 : -150);
             const destY = -Math.sin(Math.abs(angle)) * velocity;
 
             heart.animate([
-                { transform: 'translate(-50%, -50%) rotate(0deg) scale(1)', opacity: 1 },
-                { transform: `translate(${destX}px, ${destY}px) rotate(${Math.random() * 720}deg) scale(0)`, opacity: 0 }
-            ], { 
-                duration: 2000 + Math.random() * 1500, 
-                easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)' 
-            }).onfinish = () => heart.remove();
+                { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
+                { transform: `translate(${destX}px, ${destY}px) rotate(360deg) scale(0)`, opacity: 0 }
+            ], { duration: 2500 }).onfinish = () => heart.remove();
         }
     </script>
 </body>
